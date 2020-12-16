@@ -14,9 +14,24 @@
               <%= attachment_image_tag @book.user, :profile_image, format: 'jpeg', fallback: "no_image.jpg", size: "60x60" %><br>
               <%= link_to @book.user.name, user_path(@book.user) %>
             </td>
-          　<td><%= link_to @book.title, book_path(@book) %></td>
-          　<td><%= @book.body %></td>
-          　<td>
+            <td><%= link_to @book.title, book_path(@book) %></td>
+            <td><%= @book.body %></td>
+            <td>
+            <% if @book.favorited_by?(current_user) %>
+            <p>
+              <%= link_to book_favorites_path(@book), method: :delete do %>
+                ♥<%= @book.favorites.count %>
+              <% end %>
+            </p>
+            <% else %>
+            <p>
+              <%= link_to book_favorites_path(@book), method: :post do %>
+                ♡<%= @book.favorites.count %>
+              <% end %>
+            </p>
+            <% end %>
+            </td>
+            <td>
               <% if @book.user == current_user %>
               <a class="btn btn-sm btn-success" href="/books/<%= @book.id %>/edit">Edit</a>
               <% end %>
@@ -27,7 +42,7 @@
               <% end %>
             </td>
           </tr>
-      　</tbody>
+        </tbody>
       </table>
     </div>
     <!--Book detail終了-->
