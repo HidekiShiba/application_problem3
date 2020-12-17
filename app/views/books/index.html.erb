@@ -22,17 +22,11 @@
               <td><%= link_to attachment_image_tag(book.user, :profile_image, format: 'jpeg', fallback: "no_image.jpg", size: "60x60"), "/users/#{book.user.id}" %></td>
               <td><%= link_to book.title, book_path(book) %></td>
               <td><%= book.body %></td>
-              <td>
-              <% if book.favorited_by?(current_user) %>
-                <%= link_to book_favorites_path(book), method: :delete, remote: true do %>
-                  ♥<%= book.favorites.count %>
-                <% end %>
-              <% else %>
-                <%= link_to book_favorites_path(book), method: :post, remote: true do %>
-                  ♡<%= book.favorites.count %>
-                <% end %>
-              <% end %>
-              </td>
+
+              <div id="favorites_buttons">
+                <%= render partial: 'favorites/favorite', locals: { book: book} %>
+              </div>
+
               <td>コメント数：<%= book.book_comments.count %></td>
             </tr>
           <% end %>
